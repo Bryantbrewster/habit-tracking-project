@@ -1,0 +1,73 @@
+import requests
+import datetime
+
+USERNAME = "bryantb"
+TOKEN = "f2hshj2gfjs2klhf2jkdnv"
+GRAPH_ID = "graph1"
+
+pixela_endpoint = 'https://pixe.la/v1/users'
+
+user_params ={
+    "token": TOKEN,
+    "username": USERNAME,
+    "agreeTermsOfService": "yes",
+    "notMinor": "yes"
+}
+
+# user_creation_response = requests.post(url=pixela_endpoint, json=user_params)
+
+graph_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs"
+
+graph_params ={
+    "id": GRAPH_ID,
+    "name": "Coding Graph",
+    "unit": "Minutes",
+    "type": "int",
+    "color": "sora"
+}
+
+headers = {
+    "X-USER-TOKEN": TOKEN
+}
+
+# graph_creation_response = requests.post(url=graph_endpoint, json=graph_params, headers=headers)
+# print(graph_creation_response.text)
+
+# url to check out the new graph
+# https://pixe.la/v1/users/bryantb/graphs/graph1.html
+
+pixel_post_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs/{GRAPH_ID}"
+
+description ={
+    "Worked on": "Day 37: habit tracking graph"
+}
+
+today = datetime.datetime.now()
+
+
+pixel_params = {
+    "date": today.strftime("%Y%m%d"),
+    "quantity": input("How many minutes did you code today?\n"),
+    # "optionalData": description
+}
+
+pixel_creation_response = requests.post(url=pixel_post_endpoint, json=pixel_params, headers=headers)
+print(pixel_creation_response.text)
+
+# the pixel put endpoint is the same as point
+
+date_to_update = "20220314"
+new_quantity_to_update_to = "180"
+
+
+update_params ={
+    "quantity": new_quantity_to_update_to,
+}
+
+# pixel_update_response = requests.put(url=f"{pixel_post_endpoint}/{date_to_update}", json=update_params,headers=headers)
+# print(pixel_update_response.text)
+
+date_to_delete = "20220315"
+
+# pixel_delete_response = requests.delete(url=f"{pixel_post_endpoint}/{date_to_delete}", headers=headers)
+# print(pixel_delete_response.text)
